@@ -14,5 +14,5 @@ message userRequest {
 
 message userResponse {
     bool   result  = 1;
-    string userId = 2;
+    string message = 2;
 }

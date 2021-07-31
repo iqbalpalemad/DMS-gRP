@@ -1,0 +1,30 @@
+{
+  "name": "dms-grpc",
+  "version": "1.0.0",
+  "description": "DMS using gRPC microservice",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iqbalpalemad/DMS-gRP.git"
+  },
+  "author": "iqbal palemad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iqbalpalemad/DMS-gRP/issues"
+  },
+  "homepage": "https://github.com/iqbalpalemad/DMS-gRP#readme",
+  "dependencies": {
+    "@grpc/proto-loader": "^0.6.4",
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.12.1",
+    "grpc": "^1.24.11",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.5",
+    "redis": "^3.1.2"
+  }
+}
