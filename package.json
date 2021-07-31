@@ -4,7 +4,8 @@
   "description": "DMS using gRPC microservice",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -20,11 +21,10 @@
     "@grpc/proto-loader": "^0.6.4",
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "express-validator": "^6.12.1",
     "grpc": "^1.24.11",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.5",
+    "nodemon": "^2.0.12",
     "redis": "^3.1.2"
   }
 }

@@ -1,6 +1,6 @@
-const bcrypt                    = require('bcrypt');
-const User                      = require('../../Model/User')
-
+const bcrypt          = require('bcrypt');
+const User            = require('../../Model/User')
+const Folder          = require('../../Model/Folder')
 
 
 
@@ -20,8 +20,14 @@ const createUser = async (call,callback) => {
                 password : passwordHash
         });
         const save = await user.save();
+        const folder = new Folder({
+            name   : "home",
+            userId : save._id
+        })
+        const saveFolder = await folder.save();
         userResponse.result  = true,
         userResponse.message = save._id
+        userResponse.homeFolderId = saveFolder._id;
         return callback(null,userResponse);
     }
     catch(err){

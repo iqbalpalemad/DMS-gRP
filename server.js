@@ -1,16 +1,24 @@
 const grpc                  = require("grpc");
 const protoLoader           = require("@grpc/proto-loader");
-const dotenv                = require('dotenv').config({path : '../.env'});
+const dotenv                = require('dotenv');
 const mongoose              = require('mongoose');
 
-const userPackageDef        = protoLoader.loadSync("../protocol_buffers/User.proto",{});
+dotenv.config();
+
+const userPackageDef        = protoLoader.loadSync("./protocol_buffers/User.proto",{});
 const userGrpcObject        = grpc.loadPackageDefinition(userPackageDef);
 const userPackage           = userGrpcObject.userPackage;
+
+const folderPackageDef      = protoLoader.loadSync("./protocol_buffers/Folder.proto",{});
+const folderGrpcObject      = grpc.loadPackageDefinition(folderPackageDef);
+const folderPackage         = folderGrpcObject.folderPackage;
 
 
 
 const createUser            = require('./controller/user/createUser');
 const login                 = require('./controller/user/login');
+
+const createFolder          = require('./controller/folder/create')
 
 mongoose.connect(process.env.DB_CONNECT,
     { 
@@ -28,6 +36,10 @@ const server            = new grpc.Server();
 server.addService(userPackage.userService.service,{
     "createUser" : createUser,
     "login" : login
+})
+
+server.addService(folderPackage.folderService.service,{
+    "create" : createFolder
 })
 
 
