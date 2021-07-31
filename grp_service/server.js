@@ -7,7 +7,10 @@ const userPackageDef        = protoLoader.loadSync("../protocol_buffers/User.pro
 const userGrpcObject        = grpc.loadPackageDefinition(userPackageDef);
 const userPackage           = userGrpcObject.userPackage;
 
+
+
 const createUser            = require('./controller/user/createUser');
+const login                 = require('./controller/user/login');
 
 mongoose.connect(process.env.DB_CONNECT,
     { 
@@ -23,7 +26,8 @@ mongoose.connect(process.env.DB_CONNECT,
 const server            = new grpc.Server();
 
 server.addService(userPackage.userService.service,{
-    "createUser" : createUser
+    "createUser" : createUser,
+    "login" : login
 })
 
 
