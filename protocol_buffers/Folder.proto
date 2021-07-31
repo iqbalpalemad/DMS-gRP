@@ -5,13 +5,16 @@ package folderPackage;
 
 service folderService {
     rpc create (folderRequest) returns (folderResponse);
+    rpc update (folderRequest) returns (folderResponse);
+    rpc delete (folderRequest) returns (folderResponse);
 }
 
 
 message folderRequest {
     string  token          = 1;
     string  name           = 2;
-    string  parentFolderId = 4;
+    string  parentFolderId = 3;
+    string  folderId       = 4;
 }
 
 message folderResponse {

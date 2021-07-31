@@ -18,7 +18,8 @@ const folderPackage         = folderGrpcObject.folderPackage;
 const createUser            = require('./controller/user/createUser');
 const login                 = require('./controller/user/login');
 
-const createFolder          = require('./controller/folder/create')
+const createFolder          = require('./controller/folder/create');
+const updateFolder          = require('./controller/folder/update');
 
 mongoose.connect(process.env.DB_CONNECT,
     { 
@@ -39,7 +40,8 @@ server.addService(userPackage.userService.service,{
 })
 
 server.addService(folderPackage.folderService.service,{
-    "create" : createFolder
+    "create" : createFolder,
+    "update" : updateFolder
 })
 
 
