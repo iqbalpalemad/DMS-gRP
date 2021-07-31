@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+
+package filePackage;
+
+service fileService {
+    rpc create (fileRequest) returns (fileResponse);
+}
+
+
+message fileRequest {
+    string  token          = 1;
+    string  name           = 2;
+    string  content        = 3;
+    string  parentFolderId = 4;
+    string  fileId         = 5;
+}
+
+message fileResponse {
+    bool   result   = 1;
+    string message  = 2;
+    string fileId   = 3;
+}
