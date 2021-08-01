@@ -19,7 +19,7 @@ const updateFile = async (call,callback) => {
         if(!file){
             response = {
                 result   : false,
-                message  : "Folder not found"
+                message  : "file not found"
             }
             return callback(null,response);
         }
