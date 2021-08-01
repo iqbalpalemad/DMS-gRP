@@ -15,12 +15,9 @@ const createFolder = async (call,callback) => {
         }
         const folder = new Folder({
             name   : call.request.name,
-            userId : mongoose.Types.ObjectId(validToken.userId)
+            userId : mongoose.Types.ObjectId(validToken.userId),
+            parentFolderId : mongoose.Types.ObjectId(call.request.parentFolderId)
         })
-
-        if(call.request.parentFolderId !== ""){
-            folder.parentFolderId = mongoose.Types.ObjectId(call.request.parentFolderId);
-        }
         const save = await folder.save();
         response = {
             result   : true,

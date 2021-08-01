@@ -28,6 +28,7 @@ const createUser = async (call,callback) => {
         userResponse.result  = true,
         userResponse.message = save._id
         userResponse.homeFolderId = saveFolder._id;
+        console.log(userResponse)
         return callback(null,userResponse);
     }
     catch(err){

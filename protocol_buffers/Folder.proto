@@ -4,11 +4,12 @@ syntax = "proto3";
 package folderPackage;
 
 service folderService {
-    rpc create (folderRequest) returns (folderResponse);
-    rpc update (folderRequest) returns (folderResponse);
-    rpc delete (folderRequest) returns (folderResponse);
-    rpc move   (folderRequest) returns (folderResponse);
-    rpc get    (folderRequest) returns (getFolderResponse);
+    rpc create      (folderRequest) returns (folderResponse);
+    rpc update      (folderRequest) returns (folderResponse);
+    rpc delete      (folderRequest) returns (folderResponse);
+    rpc move        (folderRequest) returns (folderResponse);
+    rpc get         (folderRequest) returns (getFolderResponse);
+    rpc getContent  (folderRequest) returns (getFolderContentResponse);
 }
 
 
@@ -37,6 +38,22 @@ message getFolderResponse {
     bool   result       = 1;
     string message      = 2;
     folderData folder   = 3;
+}
+
+message fileData {
+    string name           = 1;
+    string userId         = 2;
+    string parentFolderId = 3;
+    string content        = 4;
+    string  createdAt     = 5;
+    string  updatedAt     = 6;
+}
+
+message getFolderContentResponse {
+    bool   result                 = 1;
+    string message                = 2;
+    repeated folderData folders   = 3;
+    repeated fileData   files     = 4;
 }
 
 

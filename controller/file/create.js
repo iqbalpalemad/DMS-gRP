@@ -18,12 +18,9 @@ const createFile = async (call,callback) => {
 
         const file = new File({
             name   : call.request.name,
-            userId : mongoose.Types.ObjectId(validToken.userId)
+            userId : mongoose.Types.ObjectId(validToken.userId),
+            parentFolderId : mongoose.Types.ObjectId(call.request.parentFolderId)
         })
-
-        if(call.request.parentFolderId !== ""){
-            file.parentFolderId = mongoose.Types.ObjectId(call.request.parentFolderId);
-        }
 
         if(call.request.content !== ""){
             file.content = mongoose.Types.ObjectId(call.request.parentFolderId);

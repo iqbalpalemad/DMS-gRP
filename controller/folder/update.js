@@ -32,7 +32,7 @@ const updateFolder = async (call,callback) => {
         }
 
         if(call.request.parentFolderId !== ""){
-            folder.parentFolderId = mongoose.Types.ObjectId(call.request.parentFolderId);
+            folder.parentFolderId = mongoose.Types.ObjectId(call.request.parentFolderId); 
         }
 
         if(call.request.name !== ""){

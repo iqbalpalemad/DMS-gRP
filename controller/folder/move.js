@@ -37,23 +37,7 @@ const moveFolder = async (call,callback) => {
             }
             return callback(null,response);
         }
-
-        if(call.request.parentFolderId == "home"){
-            folder.parentFolderId = null;
-        }
-        else{
-            if(call.request.parentFolderId.length != 24){
-                response = {
-                    result   : false,
-                    message  : "Invalid destination folder Id"
-                }
-                return callback(null,response);
-            }
-            else{
-                folder.parentFolderId = mongoose.Types.ObjectId(call.request.parentFolderId);
-            }
-        }
-
+        folder.parentFolderId = mongoose.Types.ObjectId(call.request.parentFolderId);
         const move = await folder.save();
         response = {
             result   : true,

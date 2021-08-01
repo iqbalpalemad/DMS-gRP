@@ -29,23 +29,7 @@ const moveFile = async (call,callback) => {
             }
             return callback(null,response);
         }
-
-        if(call.request.parentFolderId == "home"){
-            file.parentFolderId = null;
-        }
-        else{
-            if(call.request.parentFolderId.length != 24){
-                response = {
-                    result   : false,
-                    message  : "Invalid destination folder Id"
-                }
-                return callback(null,response);
-            }
-            else{
-                file.parentFolderId = mongoose.Types.ObjectId(call.request.parentFolderId);
-            }
-        }
-
+        file.parentFolderId = mongoose.Types.ObjectId(call.request.parentFolderId);
         const move = await file.save();
         response = {
             result   : true,
