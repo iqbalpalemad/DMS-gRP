@@ -7,6 +7,7 @@ service userService {
     rpc createUser (authRequest) returns (userResponse);
     rpc login (authRequest) returns (userResponse);
     rpc getAll (userRequest) returns (getUsersResponse);
+    rpc delete (userRequest) returns (userResponse);
 }
 
 message userRequest{
