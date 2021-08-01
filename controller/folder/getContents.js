@@ -30,46 +30,58 @@ const getFolderContent = async (call,callback) => {
             }
             return callback(null,response);
         }
-        
-        const folders = await Folder.find({parentFolderId : mongoose.Types.ObjectId(call.request.folderId), userId :validToken.userId })
-        const files   = await File.find({parentFolderId   : mongoose.Types.ObjectId(call.request.folderId), userId : validToken.userId})
-        
-        
+        let folders;
+        let files;
         const  foldersReturn = [];
         const  filesReturn = [];
-        folders.forEach(element => {
-            folderItem = {
-                name : element.name,
-                userId : element.userId,
-                createdAt : element.createdAt.toString(),
-                updatedAt : element.updatedAt.toString()
-            };
-            if(element.parentFolderId){
-                folderItem["parentFolderId"] = element.parentFolderId;
-            }
-            foldersReturn.push(folderItem);
-            
-        });
-        files.forEach(element => {
-            fileItem = {
-                name : element.name,
-                userId : element.userId,
-                createdAt : element.createdAt.toString(),
-                updatedAt : element.updatedAt.toString()
-            };
-            if(element.parentFolderId){
-                fileItem["parentFolderId"] =  element.parentFolderId;
-            }
-            if(element.content){
-                fileItem["content"] = element.content;
-            }
-            filesReturn.push(fileItem)
-        });
+        if(call.request.type == "all" || call.request.type == "folder"){
+            folders = await Folder.find({parentFolderId : mongoose.Types.ObjectId(call.request.folderId), userId :validToken.userId })
+            folders.forEach(element => {
+                folderItem = {
+                    name : element.name,
+                    userId : element.userId,
+                    createdAt : element.createdAt.toString(),
+                    updatedAt : element.updatedAt.toString()
+                };
+                if(element.parentFolderId){
+                    folderItem["parentFolderId"] = element.parentFolderId;
+                }
+                foldersReturn.push(folderItem);
+                
+            });
+        }
+        if(call.request.type == "all" || call.request.type == "file"){
+            files   = await File.find({parentFolderId   : mongoose.Types.ObjectId(call.request.folderId), userId : validToken.userId})
+            files.forEach(element => {
+                fileItem = {
+                    name : element.name,
+                    userId : element.userId,
+                    createdAt : element.createdAt.toString(),
+                    updatedAt : element.updatedAt.toString()
+                };
+                if(element.parentFolderId){
+                    fileItem["parentFolderId"] =  element.parentFolderId;
+                }
+                if(element.content){
+                    fileItem["content"] = element.content;
+                }
+                filesReturn.push(fileItem)
+            });
+        }
+        
+        
+        
+        
         response = {
             result   : true,
-            message  : "Folder Content fetch success",
-            folders  : foldersReturn,
-            files    : filesReturn
+            message  : "Folder Content fetch success"
+        }
+
+        if(call.request.type == "all" || call.request.type == "folder"){
+            response.folders = foldersReturn;
+        }
+        if(call.request.type == "all" || call.request.type == "file"){
+            response.files = filesReturn;
         }
 
         return callback(null,response);
