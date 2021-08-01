@@ -57,8 +57,12 @@ message fileData {
 message getFolderContentResponse {
     bool   result                 = 1;
     string message                = 2;
-    repeated folderData folders   = 3;
-    repeated fileData   files     = 4;
+    string name                   = 3;
+    string userId                 = 4;
+    string folderId               = 5;
+    string parentFolderId         = 6;
+    repeated folderData folders   = 7;
+    repeated fileData   files     = 8;
 }
 
 

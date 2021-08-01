@@ -60,10 +60,6 @@ exports.setupRedis = () =>{
     };
 }
 
-const getRedisClient   = () => {
-    
-}
-
 exports.clearRedisCache = (hashKey,id) => {
     const key = JSON.stringify({
         key : id,

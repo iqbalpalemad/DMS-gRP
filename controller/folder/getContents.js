@@ -14,29 +14,78 @@ const getFolderContent = async (call,callback) => {
             }
             return callback(null,response);
         }
-        const folder = await Folder.findOne({_id : call.request.folderId,userId :validToken.userId})
-        if(!folder){
+        
+        if(call.request.folderId != "home" && !mongoose.isValidObjectId(call.request.folderId)){
             response = {
                 result   : false,
-                message  : "Folder not found"
+                message  : "Invalid folder ID"
             }
             return callback(null,response);
         }
+        if(call.request.folderId != "home"){
+            const folder = await Folder.findOne({_id : call.request.folderId,userId :validToken.userId})
+            if(!folder){
+                response = {
+                    result   : false,
+                    message  : "Folder not found"
+                }
+                return callback(null,response);
+            }
 
-        if(folder.userId != validToken.userId){
-            response = {
-                result   : false,
-                message  : "You don't have permission to view this folder"
+            if(folder.userId != validToken.userId){
+                response = {
+                    result   : false,
+                    message  : "You don't have permission to view this folder"
+                }
+                return callback(null,response);
             }
-            return callback(null,response);
         }
-        let folders;
-        let files;
+        let match;
+        const aggregate = [];
+        if(call.request.folderId == "home"){
+            match      = { $match: {"name" : "home", "userId" : mongoose.Types.ObjectId(validToken.userId) } };
+        }
+        else{
+            match      = { $match: {"_id" : mongoose.Types.ObjectId(call.request.folderId), "userId" : mongoose.Types.ObjectId(validToken.userId) } };
+        }
+        aggregate.push(match);
+        if(call.request.type == "all" || call.request.type == "folder"){
+            const folderLookup = {
+                $lookup : {
+                    from         : "folders",
+                    localField   : "_id",
+                    foreignField : "parentFolderId",
+                    as           : "folders"
+                }
+            }
+            aggregate.push(folderLookup);
+        }
+        if(call.request.type == "all" || call.request.type == "file"){
+            const fileLookup = {
+                $lookup : {
+                    from         : "files",
+                    localField   : "_id",
+                    foreignField : "parentFolderId",
+                    as           : "files"
+                }
+            }
+            aggregate.push(fileLookup);
+        }
+        const contents = await Folder.aggregate(aggregate)
+        response = {
+            result   : true,
+            message  : "Folder Content fetch success",
+            name     : contents[0].name,
+            userId   : contents[0].userId,
+            folderId : contents[0]._id
+        }
+        if(contents[0].parentFolderId){
+            response.parentFolderId = contents[0].parentFolderId;
+        }
         const  foldersReturn = [];
         const  filesReturn = [];
-        if(call.request.type == "all" || call.request.type == "folder"){
-            folders = await Folder.find({parentFolderId : mongoose.Types.ObjectId(call.request.folderId), userId :validToken.userId })
-            folders.forEach(element => {
+        if(contents[0].folders){
+            contents[0].folders.forEach(element => {
                 folderItem = {
                     name : element.name,
                     userId : element.userId,
@@ -50,9 +99,8 @@ const getFolderContent = async (call,callback) => {
                 
             });
         }
-        if(call.request.type == "all" || call.request.type == "file"){
-            files   = await File.find({parentFolderId   : mongoose.Types.ObjectId(call.request.folderId), userId : validToken.userId})
-            files.forEach(element => {
+        if(contents[0].files){
+            contents[0].files.forEach(element => {
                 fileItem = {
                     name : element.name,
                     userId : element.userId,
@@ -68,14 +116,6 @@ const getFolderContent = async (call,callback) => {
                 filesReturn.push(fileItem)
             });
         }
-        
-        
-        
-        
-        response = {
-            result   : true,
-            message  : "Folder Content fetch success"
-        }
 
         if(call.request.type == "all" || call.request.type == "folder"){
             response.folders = foldersReturn;
@@ -83,7 +123,7 @@ const getFolderContent = async (call,callback) => {
         if(call.request.type == "all" || call.request.type == "file"){
             response.files = filesReturn;
         }
-
+        console.log(response);
         return callback(null,response);
     }
     catch(err){
