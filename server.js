@@ -22,6 +22,7 @@ const filePackage           = fileGrpcObject.filePackage;
 
 const createUser            = require('./controller/user/createUser');
 const login                 = require('./controller/user/login');
+const getAllUsers           = require('./controller/user/getAll');
 
 const createFolder          = require('./controller/folder/create');
 const updateFolder          = require('./controller/folder/update');
@@ -53,7 +54,8 @@ const server            = new grpc.Server();
 
 server.addService(userPackage.userService.service,{
     "createUser" : createUser,
-    "login" : login
+    "login"      : login,
+    "getAll"     : getAllUsers
 })
 
 server.addService(folderPackage.folderService.service,{

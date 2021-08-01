@@ -4,11 +4,17 @@ syntax = "proto3";
 package userPackage;
 
 service userService {
-    rpc createUser (userRequest) returns (userResponse);
-    rpc login (userRequest) returns (userResponse);
+    rpc createUser (authRequest) returns (userResponse);
+    rpc login (authRequest) returns (userResponse);
+    rpc getAll (userRequest) returns (getUsersResponse);
 }
 
-message userRequest {
+message userRequest{
+    string  token          = 1;
+    string  userId         = 2;
+}
+
+message authRequest {
     string  email    = 1;
     string  password = 2;
 }
@@ -17,4 +23,17 @@ message userResponse {
     bool   result       = 1;
     string message      = 2;
     string homeFolderId = 3;
+}
+
+message userData {
+    string  userId       = 1;
+    string  email        = 2;
+    string  createdAt    = 3;
+    string  updatedAt    = 4;
+}
+
+message getUsersResponse {
+    bool   result          = 1;
+    string message         = 2;
+    repeated userData user = 3;
 }
