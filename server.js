@@ -24,10 +24,11 @@ const login                 = require('./controller/user/login');
 
 const createFolder          = require('./controller/folder/create');
 const updateFolder          = require('./controller/folder/update');
-const deleteFolder          = require('./controller/folder/delete')
+const deleteFolder          = require('./controller/folder/delete');
 
 
-const createFile            = require('./controller/file/create')
+const createFile            = require('./controller/file/create');
+const updateFile            = require('./controller/file/update');
 
 mongoose.connect(process.env.DB_CONNECT,
     { 
@@ -55,7 +56,8 @@ server.addService(folderPackage.folderService.service,{
 
 
 server.addService(filePackage.fileService.service,{
-    "create" : createFile
+    "create" : createFile,
+    "update" : updateFile
 })
 
 
