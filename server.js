@@ -29,6 +29,7 @@ const deleteFolder          = require('./controller/folder/delete');
 
 const createFile            = require('./controller/file/create');
 const updateFile            = require('./controller/file/update');
+const deleteFile            = require('./controller/file/delete');
 
 mongoose.connect(process.env.DB_CONNECT,
     { 
@@ -57,7 +58,8 @@ server.addService(folderPackage.folderService.service,{
 
 server.addService(filePackage.fileService.service,{
     "create" : createFile,
-    "update" : updateFile
+    "update" : updateFile,
+    "delete" : deleteFile
 })
 
 

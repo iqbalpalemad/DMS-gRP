@@ -6,6 +6,7 @@ package filePackage;
 service fileService {
     rpc create (fileRequest) returns (fileResponse);
     rpc update (fileRequest) returns (fileResponse);
+    rpc delete (fileRequest) returns (fileResponse);
 }
 
 
