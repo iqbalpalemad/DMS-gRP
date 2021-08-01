@@ -1,5 +1,6 @@
-const   Folder       = require('../../Model/Folder');
-const   isValidToken = require('../../utils/token');
+const   Folder                  = require('../../Model/Folder');
+const   isValidToken            = require('../../utils/token');
+const   { clearRedisCache }     = require('../../utils/redis');
 
 const deleteFolder = async (call,callback) => {
     try{
@@ -36,6 +37,7 @@ const deleteFolder = async (call,callback) => {
             message  : "folder deleted succesfully",
             folderId : folder._id
         }
+        clearRedisCache(Folder.collection.collectionName,folder._id);
         return callback(null,response);
 
     }

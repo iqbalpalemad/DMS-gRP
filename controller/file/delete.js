@@ -1,5 +1,6 @@
-const   File         = require('../../Model/File');
-const   isValidToken = require('../../utils/token');
+const   File                    = require('../../Model/File');
+const   isValidToken            = require('../../utils/token');
+const   { clearRedisCache }     = require('../../utils/redis');
 
 const deleteFile = async (call,callback) => {
     try{
@@ -36,11 +37,17 @@ const deleteFile = async (call,callback) => {
             message  : "File deleted succesfully",
             fileId   : file._id
         }
+        clearRedisCache(File.collection.collectionName,file._id);
         return callback(null,response);
 
     }
     catch(err){
-
+        const response = {
+            result   : false,
+            message  : err.message,
+            fileId : ""
+        }
+        return callback(null,response);
     }
 }
 

@@ -1,7 +1,7 @@
-const   mongoose     = require('mongoose');
-const   File         = require('../../Model/File');
-const   isValidToken = require('../../utils/token');
-
+const   mongoose                = require('mongoose');
+const   File                    = require('../../Model/File');
+const   isValidToken            = require('../../utils/token');
+const   { clearRedisCache }     = require('../../utils/redis');
 const moveFile = async (call,callback) => {
     try{
         const validToken = await isValidToken(call.request.token);
@@ -36,6 +36,7 @@ const moveFile = async (call,callback) => {
             message  : "file moved succesfully",
             fileId   : move._id
         }
+        clearRedisCache(File.collection.collectionName,move._id);
         return callback(null,response);
 
     }

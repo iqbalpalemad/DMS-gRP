@@ -2,6 +2,7 @@ const grpc                  = require("grpc");
 const protoLoader           = require("@grpc/proto-loader");
 const dotenv                = require('dotenv');
 const mongoose              = require('mongoose');
+const {setupRedis}          = require('./utils/redis');
 
 dotenv.config();
 
@@ -46,6 +47,7 @@ mongoose.connect(process.env.DB_CONNECT,
     }
 )
 
+setupRedis();
 
 const server            = new grpc.Server();
 

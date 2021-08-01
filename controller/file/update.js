@@ -1,6 +1,7 @@
-const   mongoose     = require('mongoose');
-const   File         = require('../../Model/File');
-const   isValidToken = require('../../utils/token');
+const   mongoose                = require('mongoose');
+const   File                    = require('../../Model/File');
+const   isValidToken            = require('../../utils/token');
+const   { clearRedisCache }     = require('../../utils/redis');
 
 const updateFile = async (call,callback) => {
     try{
@@ -49,6 +50,7 @@ const updateFile = async (call,callback) => {
             message  : "file updated succesfully",
             fileId   : update._id
         }
+        clearRedisCache(File.collection.collectionName,update._id);
         return callback(null,response);
     }
     catch(err){

@@ -1,6 +1,7 @@
-const   mongoose     = require('mongoose');
-const   Folder       = require('../../Model/Folder');
-const   isValidToken = require('../../utils/token');
+const   mongoose                 = require('mongoose');
+const   Folder                   = require('../../Model/Folder');
+const   isValidToken             = require('../../utils/token');
+const   { clearRedisCache }     = require('../../utils/redis');
 
 const updateFolder = async (call,callback) => {
     try{
@@ -45,6 +46,7 @@ const updateFolder = async (call,callback) => {
             message  : "folder updated succesfully",
             folderId : update._id
         }
+        clearRedisCache(Folder.collection.collectionName,update._id);
         return callback(null,response);
     }
     catch(err){
