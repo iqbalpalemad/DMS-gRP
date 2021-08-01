@@ -14,7 +14,7 @@ const deleteFile = async (call,callback) => {
             return callback(null,response);
         }
 
-        const file = await File.findOne({_id : call.request.fileId})
+        const file = await File.findOne({_id : call.request.fileId}).cache();
         if(!file){
             response = {
                 result   : false,

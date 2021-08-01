@@ -14,7 +14,7 @@ const deleteFolder = async (call,callback) => {
             return callback(null,response);
         }
 
-        const folder = await Folder.findOne({_id : call.request.folderId})
+        const folder = await Folder.findOne({_id : call.request.folderId}).cache();
         if(!folder){
             response = {
                 result   : false,
