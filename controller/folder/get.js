@@ -1,7 +1,7 @@
 const   Folder       = require('../../Model/Folder');
 const   isValidToken = require('../../utils/token');
 
-const deleteFolder = async (call,callback) => {
+const getFolder = async (call,callback) => {
     try{
         const validToken = await isValidToken(call.request.token);
         let   response    = {};
@@ -25,28 +25,35 @@ const deleteFolder = async (call,callback) => {
         if(folder.userId != validToken.userId){
             response = {
                 result   : false,
-                message  : "You don't have permission to delete this folder"
+                message  : "You don't have permission to view this folder"
             }
             return callback(null,response);
         }
 
-        const deleteFolder = await folder.remove();
         response = {
             result   : true,
-            message  : "folder deleted succesfully",
-            folderId : folder._id
+            message  : "Folder fetch success"
         }
+
+        folderData = {
+            name : folder.name,
+            userId : folder.userId,
+            parentFolderId : folder.parentFolderId,
+            createdAt : folder.createdAt.toString(),
+            updatedAt : folder.updatedAt.toString()
+        }
+
+        response.folder = folderData;
         return callback(null,response);
 
     }
     catch(err){
         const response = {
             result   : false,
-            message  : err.message,
-            folderId : ""
+            message  : err.message
         }
         return callback(null,response);
     }
 }
 
-module.exports = deleteFolder;
+module.exports = getFolder

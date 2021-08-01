@@ -8,6 +8,7 @@ service folderService {
     rpc update (folderRequest) returns (folderResponse);
     rpc delete (folderRequest) returns (folderResponse);
     rpc move   (folderRequest) returns (folderResponse);
+    rpc get    (folderRequest) returns (getFolderResponse);
 }
 
 
@@ -23,3 +24,21 @@ message folderResponse {
     string message  = 2;
     string folderId = 3;
 }
+
+message folderData {
+    string  name   = 1;
+    string  userId = 2;
+    string  parentFolderId = 3;
+    string  createdAt = 4;
+    string  updatedAt = 5;
+}
+
+message getFolderResponse {
+    bool   result       = 1;
+    string message      = 2;
+    folderData folder   = 3;
+}
+
+
+
+

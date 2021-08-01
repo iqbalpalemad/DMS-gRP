@@ -26,6 +26,7 @@ const createFolder          = require('./controller/folder/create');
 const updateFolder          = require('./controller/folder/update');
 const deleteFolder          = require('./controller/folder/delete');
 const moveFolder            = require('./controller/folder/move');
+const getFolder             = require('./controller/folder/get');
 
 
 const createFile            = require('./controller/file/create');
@@ -55,7 +56,8 @@ server.addService(folderPackage.folderService.service,{
     "create" : createFolder,
     "update" : updateFolder,
     "delete" : deleteFolder,
-    "move"   : moveFolder
+    "move"   : moveFolder,
+    "get"    : getFolder
 })
 
 
