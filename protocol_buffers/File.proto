@@ -4,10 +4,11 @@ syntax = "proto3";
 package filePackage;
 
 service fileService {
-    rpc create (fileRequest) returns (fileResponse);
-    rpc update (fileRequest) returns (fileResponse);
-    rpc delete (fileRequest) returns (fileResponse);
-    rpc move   (fileRequest) returns (fileResponse);
+    rpc create (fileRequest)        returns (fileResponse);
+    rpc update (fileRequest)        returns (fileResponse);
+    rpc delete (fileRequest)        returns (fileResponse);
+    rpc move   (fileRequest)        returns (fileResponse);
+    rpc get    (fileRequest)        returns (getFileResponse);
 }
 
 
@@ -23,4 +24,21 @@ message fileResponse {
     bool   result   = 1;
     string message  = 2;
     string fileId   = 3;
+}
+
+
+
+message fileData {
+    string  name            = 1;
+    string  userId          = 2;
+    string  content         = 3;
+    string  parentFolderId  = 4;
+    string  createdAt       = 5;
+    string  updatedAt       = 6;
+}
+
+message getFileResponse {
+    bool     result       = 1;
+    string   message      = 2;
+    fileData file         = 3;
 }

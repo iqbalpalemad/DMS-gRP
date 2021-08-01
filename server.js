@@ -34,6 +34,7 @@ const createFile            = require('./controller/file/create');
 const updateFile            = require('./controller/file/update');
 const deleteFile            = require('./controller/file/delete');
 const moveFile              = require('./controller/file/move');
+const getFile               = require('./controller/file/get')
 
 mongoose.connect(process.env.DB_CONNECT,
     { 
@@ -67,7 +68,8 @@ server.addService(filePackage.fileService.service,{
     "create" : createFile,
     "update" : updateFile,
     "delete" : deleteFile,
-    "move"   : moveFile
+    "move"   : moveFile,
+    "get"    : getFile,
 })
 
 
